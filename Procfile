@@ -1,1 +1,1 @@
-web: gunicorn app:welcometosafty
+web: gunicorn app:yt
