@@ -7,23 +7,6 @@ from io import BytesIO
 
 app = Flask(__name__)
 
-def stream_to_buffer(self, buffer: BinaryIO) -> None:
-        """Write the media stream to buffer
-
-        :rtype: io.BytesIO buffer
-        """
-        bytes_remaining = self.filesize
-       
-
-        for chunk in request.stream(self.url):
-            # reduce the (bytes) remainder by the length of the chunk.
-            bytes_remaining -= len(chunk)
-            # send to the on_progress callback.
-            self.on_progress(chunk, buffer, bytes_remaining)
-        self.on_complete(None)
-
-
-
 @app.route('/',methods=['GET','POST'])
 def home():
     if request.method == "POST":
