@@ -73,7 +73,7 @@ def home():
                         as_attachment=True,
                         download_name = 'Archive.zip' ,
                         max_age = 0,
-                        mimetype="video/mp4")
+                        )
                         #with youtube_dl.YoutubeDL(options) as y:
                         #    try:
                         #        r = y.extract_info(url, download=False)
