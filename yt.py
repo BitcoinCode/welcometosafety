@@ -1,7 +1,10 @@
+from asyncio import subprocess
+from distutils import file_util
 from email.mime import base
 from glob import glob
-from operator import index
+from operator import index, le
 from pydoc import plain
+from signal import siginterrupt
 from typing import BinaryIO
 from urllib import response
 from webbrowser import get
@@ -12,12 +15,14 @@ from pytube import YouTube,Playlist
 from io import BytesIO
 import os
 
+
+
 app = Flask(__name__)
 
 @app.route('/',methods=['GET','POST'])
 def home():
     if request.method == "POST":
-        url = request.form["txUrl"]
+        url = request.form['txUrl']
         #qs = url.split('/');
         #print(qs[3])
       #===========================================
@@ -25,22 +30,33 @@ def home():
       #===========================================
         if url != '':
             if request.form.get("pl") !=  "1":
-                print('this is me at the top')
-                print(request.form.get("highres"))
-                if request.form.get("highres") ==  "1":
-                    yt = YouTube(url).streams.get_highest_resolution()
-                else:
-                    yt = YouTube(url).streams.get_lowest_resolution()
-                
-                buffer = BytesIO()
-                yt.stream_to_buffer(buffer)
-                buffer.seek(0)
-                return send_file(
-                    buffer,
-                    as_attachment=True,
-                    attachment_filename = yt.default_filename ,
-                    mimetype="video/mp4"
-                )
+                #=url
+                # youtube_dl.YoutubeDL() as ydl:
+                ##f=BytesIO()
+                #info = ydl.extract_info(str(link),download=False)
+                #
+                #print(info['requested_formats'][0]['asr'][1])
+                ## f = ydl._download_retcode.to_bytes(['filesize'],byteorder='big')
+                ## print(f)
+                #return render_template("index.html")
+                    #ydl.download(link)
+                    
+
+                #  print('this is me at the top')
+                #  print(request.form.get("highres"))
+                 if request.form.get("highres") ==  "1":
+                     yt = YouTube(url).streams.get_highest_resolution()
+                 else:
+                     yt = YouTube(url).streams.get_lowest_resolution()
+                 buffer = BytesIO()
+                 yt.stream_to_buffer(buffer)
+                 buffer.seek(0)
+                 return send_file(
+                     buffer,
+                     as_attachment=True,
+                     attachment_filename = yt.default_filename ,
+                     mimetype="video/mp4"
+                 )
                 #print(yt.title)
                 #stream =  yt.streams.filter('mp4')
                 #stream.download()
